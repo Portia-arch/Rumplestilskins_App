@@ -4,9 +4,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from 'redux';
 import Reducer from './components/Reducer/reducer';
-import ReduxPromise from "redux-promise";
+import ReduxPromise from 'redux-promise';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 

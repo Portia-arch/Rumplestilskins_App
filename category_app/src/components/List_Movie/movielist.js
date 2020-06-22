@@ -9,7 +9,6 @@ class MovieList extends Component {
         this.state = { currentElement: null };
     }
 
-
     movieItems() {
         if (this.props.movies) {
             if (!this.props.movies.length)
@@ -18,18 +17,16 @@ class MovieList extends Component {
                 else
                     return <h1 id="search-info">I'm sorry... We didn't find your movie ;(</h1>;
             else
-                return (
-                    this.props.movies.map((movie) => {
+                return this.props.movies.map((movie) => {
                     if (movie.poster_path)
-                        return 
-                        <li className="movie-list-item" key={movie.id} onMouseEnter={this.onHover.bind(this)} onMouseLeave={this.onLeave.bind(this)}>
-                            <MoviePopUp movie={ movie } />
-                            <img className="poster" src={`http://img.omdbapi.com/?apikey=bbe6ac46&{movie.poster_path}`} />
+                        return <li className="movie-list-item" key={movie.id} onMouseEnter={this.onHover.bind(this)} onMouseLeave={this.onLeave.bind(this)}>
+                            {<MoviePopUp movie={movie} />}
+                            {<img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />}
                         </li>;
 
-                })
-        });
-    };
+                });
+        }
+    }
 
     onHover(e) {
         this.state.currentElement = e.target.parentElement.firstElementChild;

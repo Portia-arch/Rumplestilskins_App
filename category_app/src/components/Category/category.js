@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchData } from '../actions/index.js';
-import { favoriteData } from '../actions/get-favorites.js';
-import { fetchSearch } from '../actions/search-action.js';
+import { fetchData } from '../index';
+import { favoriteData } from '../Category/favorite';
+import { fetchSearch } from '../Search/search-action';
 
 class Categories extends Component {
     constructor(props) {
