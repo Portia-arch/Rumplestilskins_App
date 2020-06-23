@@ -1,23 +1,46 @@
-import { FETCH_MOVIES } from "../index";
-import { FAVORITE_MOVIES } from "../Category/favorite.js";
-import { FETCH_SEARCH } from '../Search/search-action';
+import {
+    SEARCH_MOVIE,
+    FETCH_MOVIES,
+    FETCH_MOVIE,
+    LOADING
+} from '../Search/types.js';
 
-export default function (state = null, action) {
+const initialState = {
+    text: "",
+    movies: [],
+    loading: false,
+    movie: []
+};
+
+export default function (state = initialState, action) {
     switch (action.type) {
-        case FETCH_MOVIES:
-            if (action.payload.data.results) {
-                return action.payload.data.results;
-            }
-            break;
-        case FAVORITE_MOVIES:
-            if (action.payload) {
-                return action.payload;
-            }
-            break;
-        case FETCH_SEARCH:
-            if (action.payload.data.results) {
-                return action.payload.data.results;
-            } break;
-        default: return state;
+        case SEARCH_MOVIE:
+            return {
+                ...state,
+                text: action.payload,
+                loading: false
+            };
+        case FETCH_MOVIES: {
+            return {
+                ...state,
+                movies: action.payload,
+                loading: false
+            };
+        }
+        case FETCH_MOVIE: {
+            return {
+                ...state,
+                movie: action.payload,
+                loading: false
+            };
+        }
+        case LOADING: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+        default:
+            return state;
     }
 }

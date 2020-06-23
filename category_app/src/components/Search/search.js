@@ -1,58 +1,41 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchSearch } from '../Search/search-action';
+import { SEARCH_MOVIE, FETCH_MOVIES, FETCH_MOVIE, LOADING } from './types';
+import axios from "axios";
 
+const API_KEY = process.env.REACT_APP_API_KEY;
 
-class SearchBar extends Component {
+export const searchMovie = text => dispatch => {
+    dispatch({
+        type: SEARCH_MOVIE,
+        payload: text
+    });
+};
 
-    constructor(props) {
-        super(props);
+export const setLoading = () => {
+    return {
+        type: LOADING
+    };
+};
 
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-    }
+export const fetchMovies = text => dispatch => {
+    axios
+        .get(`https://www.omdbapi.com/?&apikey=${API_KEY}&s=${text}`)
+        .then(response => {
+            dispatch({
+                type: FETCH_MOVIES,
+                payload: response.data
+            });
+        })
+        .catch(err => console.log(err));
+};
 
-    onFormSubmit(e) {
-        e.preventDefault();
-        let temp = document.querySelector('.categories').childNodes;
-        Array.from(temp).map((li) => {
-            if (li.classList.contains('selected-category')) {
-                li.classList.remove('selected-category');
-            }
-        });
-        document.getElementById('search').classList.add('selected-category');
-        if (e.target.value)
-            this.props.fetchSearch(e.target.value);
-    }
-
-    Focus(e) {
-        e.target.placeholder = '';
-    }
-
-    Blur(e) {
-        e.target.placeholder = 'Search movie title...';
-    }
-
-    render() {
-        return (
-            <div className="navbar" >
-                <h2>React Movie App</h2>
-                <input
-                    id="search-input"
-                    type="text"
-                    className="from-control search-bar"
-                    placeholder="Search movie title..."
-                    onChange={this.onFormSubmit}
-                    onFocus={this.Focus}
-                    onBlur={this.Blur}
-                />
-            </div>
-        );
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchSearch }, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(SearchBar);
+export const fetchMovie = id => dispatch => {
+    axios
+        .get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`)
+        .then(response =>
+            dispatch({
+                type: FETCH_MOVIE,
+                payload: response.data
+            })
+        )
+        .catch(err => console.log(err));
+};
